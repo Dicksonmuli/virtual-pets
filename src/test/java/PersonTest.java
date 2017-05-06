@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 public class PersonTest {
 	private Person testPerson;
+	private Person secondPerson;
 
 	@Rule
 	public DatabaseRule database = new DatabaseRule();
@@ -10,6 +11,7 @@ public class PersonTest {
 	@Before
 	public void instance() {
 		testPerson = new Person("Henry", "[email protected]");
+		secondPerson = new Person("Harriet", "harriet@harriet.com");
 	}
 
 	@Test
@@ -34,5 +36,10 @@ public class PersonTest {
 		testPerson.save();
 		assertTrue(Person.all().get(0).equals(testPerson));
 	}
-	//returning a
+	//returning all database entries
+	@Test
+	public void all_returnsAllInstancesOfPerson_true() {
+		assertTrue(Person.all().get(0).equals(testPerson));
+		assertTrue(Person.all().get(1).equals(secondPerson));
+	}
 }
