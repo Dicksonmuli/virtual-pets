@@ -8,10 +8,15 @@ public class PersonTest {
 		testPerson = new Person("Henry", "[email protected]");
 	}
 
-	@test
+	@Test
 	public void person_instantiatesCorrectly_true() {
 		assertTrue(testPerson instanceof Person);
 	}
-
-	
+	@Test
+	public void getName_personInstantiatesWithName_Henry() {
+		assertEqual("Henry", testPerson.getName());
+	}
+	public void getEmail_personInstantiatesWithEmail_String() {
+		assertEqual("[email protected]", testPerson.getEmail());
+	}
 }
