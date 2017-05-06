@@ -25,7 +25,8 @@ public class PersonTest {
 	public void getEmail_personInstantiatesWithEmail_String() {
 		assertEquals("[email protected]", testPerson.getEmail());
 	}
-	@Test public void equals_returnsTrueIfNameAndEmailAreSame_true() {
+	@Test
+	public void equals_returnsTrueIfNameAndEmailAreSame_true() {
 		Person firstPerson = new Person("Henry", "[email protected]");
 		Person anotherPerson = new Person("Henry", "[email protected]");
 		assertTrue(firstPerson.equals(anotherPerson));
@@ -44,8 +45,12 @@ public class PersonTest {
 	@Test
 	public void save_assignsIdToObject() {
 		Person myPerson = new Person ("Henry", "henry@henry.com");
-		myPerson.save();
 		Person savedPerson = Person.all().get(0);
 		assertEquals(testPerson.getId(), savedPerson.getId());
 	}
+
+	@Test
+ public void find_returnsPersonWithSameId_secondPerson() {
+	 assertEquals(Person.find(secondPerson.getId()), secondPerson);
+ }
 }

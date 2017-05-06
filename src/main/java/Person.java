@@ -13,10 +13,11 @@ public class Person {
 
 		try(Connection con = DB.sql2o.open()) {
 			String sql = "INSERT INTO persons(name, email) VALUES (:name, :email)";
-			con.createQuery(sql)
+			this.id = (int) con.createQuery(sql, true)
 			.addParameter("name", this.name)
 			.addParameter("email", this.email)
-			.executeUpdate();
+			.executeUpdate()
+			.getKey();
 		}
 	}
 
@@ -28,6 +29,9 @@ public class Person {
 		return email;
 	}
 
+	public int getId() {
+		return id;
+	}
 	//overriding equals
 	@Override
  public boolean equals(Object otherPerson){
@@ -35,25 +39,35 @@ public class Person {
 		 return false;
 	 } else {
 		 Person newPerson = (Person) otherPerson;
-		 return this.getName().equals(newPerson.getName()) &&
-						this.getEmail().equals(newPerson.getEmail());
+		 return this.getName().equals(newPerson.getName()) && this.getEmail().equals(newPerson.getEmail()) ;
 	 }
  }
  //saving to the db
  public void save() {
 	 try(Connection con = DB.sql2o.open()) {
 		 String sql = "INSERT INTO persons(name, email) VALUES (:name, :email)";
-		 con.createQuery(sql)
+		 this.id = (int) con.createQuery(sql, true)
 		 .addParameter("name", this.name)
 		 .addParameter("email", this.email)
-		 .executeUpdate();
+		 .executeUpdate()
+		 .getKey();
 	 }
  }
  //retrieves all database entries
  public static List<Person> all() {
-	 String sql = "SELECT * FROM persons";
+	 String sql = "SELECT id, name, email FROM persons";
 	 try(Connection con = DB.sql2o.open()) {
 		 return con.createQuery(sql).executeAndFetch(Person.class);
 	 }
  }
+ // finds a person with a specified id
+ public static Person find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM persons where id=:id";
+      Person person = con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Person.class);
+      return person;
+    }
+  }
 }
