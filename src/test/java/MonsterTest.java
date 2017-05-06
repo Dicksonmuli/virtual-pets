@@ -80,5 +80,10 @@ public class MonsterTest {
 	 Monster[] monsters = new Monster[] { firstMonster, secondMonster };
 	 assertTrue(testPerson.getMonsters().containsAll(Arrays.asList(monsters)));
  }
+ @Test
+ public void monster_instantiatesWithHalfFullPlayLevel(){
+	 Monster testMonster = new Monster("Bubbles", 1);
+	 assertEquals(testMonster.getPlayLevel(), (Monster.MAX_PLAY_LEVEL / 2));
+ }
 
 }
