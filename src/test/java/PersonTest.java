@@ -33,7 +33,6 @@ public class PersonTest {
 	//saving to the db
 	@Test
 	public void save_insertsObjectIntoDatabase_Person() {
-		testPerson.save();
 		assertTrue(Person.all().get(0).equals(testPerson));
 	}
 	//returning all database entries
@@ -41,5 +40,12 @@ public class PersonTest {
 	public void all_returnsAllInstancesOfPerson_true() {
 		assertTrue(Person.all().get(0).equals(testPerson));
 		assertTrue(Person.all().get(1).equals(secondPerson));
+	}
+	@Test
+	public void save_assignsIdToObject() {
+		Person myPerson = new Person ("Henry", "henry@henry.com");
+		myPerson.save();
+		Person savedPerson = Person.all().get(0);
+		assertEquals(testPerson.getId(), savedPerson.getId());
 	}
 }

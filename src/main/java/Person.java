@@ -1,6 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
+import org.sql2o.*;
+
 public class Person {
 	private String email;
 	private String name;
+	private int id;
 
 	public Person(String name, String email) {
 		this.name = name;
@@ -10,6 +15,7 @@ public class Person {
 			String sql = "INSERT INTO persons(name, email) VALUES (:name, :email)";
 			con.createQuery(sql)
 			.addParameter("name", this.name)
+			.addParameter("email", this.email)
 			.executeUpdate();
 		}
 	}
@@ -39,7 +45,15 @@ public class Person {
 		 String sql = "INSERT INTO persons(name, email) VALUES (:name, :email)";
 		 con.createQuery(sql)
 		 .addParameter("name", this.name)
+		 .addParameter("email", this.email)
 		 .executeUpdate();
+	 }
+ }
+ //retrieves all database entries
+ public static List<Person> all() {
+	 String sql = "SELECT * FROM persons";
+	 try(Connection con = DB.sql2o.open()) {
+		 return con.createQuery(sql).executeAndFetch(Person.class);
 	 }
  }
 }
