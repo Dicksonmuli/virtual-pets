@@ -59,6 +59,15 @@ public class MonsterTest {
 	 secondMonster.save();
 	 assertEquals(Monster.find(secondMonster.getId()), secondMonster);
  }
+ @Test
+ public void save_savesPersonIdIntoDB_true() {
+	 Person testPerson = new Person("Henry", "henry@henry.com");
+	 testPerson.save();
+	 Monster testMonster = new Monster("Bubbles", testPerson.getId());
+	 testMonster.save();
+	 Monster savedMonster = Monster.find(testMonster.getId());
+	 assertEquals(savedMonster.getPersonId(), testPerson.getId());
+ }
 
 
 }
