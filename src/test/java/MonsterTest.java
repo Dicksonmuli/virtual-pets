@@ -197,5 +197,14 @@ public void depleteLevels_reducesAllLevels(){
     Timestamp rightNow = new Timestamp(new Date().getTime());
     assertEquals(DateFormat.getDateTimeInstance().format(rightNow), DateFormat.getDateTimeInstance().format(savedMonsterLastSlept));
   }
+  @Test
+  public void feed_recordsTimeLastAteInDatabase() {
+    Monster testMonster = new Monster("Bubbles", 1);
+    testMonster.save();
+    testMonster.feed();
+    Timestamp savedMonsterLastAte = Monster.find(testMonster.getId()).getLastAte();
+    Timestamp rightNow = new Timestamp(new Date().getTime());
+    assertEquals(DateFormat.getDateTimeInstance().format(rightNow), DateFormat.getDateTimeInstance().format(savedMonsterLastAte));
+  }
 
 }
