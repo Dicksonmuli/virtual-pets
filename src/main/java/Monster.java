@@ -99,6 +99,9 @@ public class Monster {
     playLevel++;
   }
    public void sleep(){
+     if(sleepLevel >= MAX_SLEEP_LEVEL) {
+       throw new UnsupportedOperationException("You cannot make your monster sleep anymore");
+     }
       sleepLevel++;
     }
 	public void feed(){
