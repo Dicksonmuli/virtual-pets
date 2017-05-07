@@ -1,6 +1,7 @@
 import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class Monster {
   private String name;
@@ -13,6 +14,10 @@ public class Monster {
   public static final int MAX_SLEEP_LEVEL = 8;
   public static final int MAX_PLAY_LEVEL = 12;
   public static final int MIN_ALL_LEVELS = 0;
+  private Timestamp birthday;
+  private Timestamp lastSlept;
+  private Timestamp lastAte;
+  private Timestamp lastPlayed;
 
   public Monster(String name, int personId) {
     this.name = name;
@@ -41,6 +46,9 @@ public class Monster {
 	public int getFoodLevel() {
 		return foodLevel;
 	}
+  public Timestamp getBirthday(){
+    return birthday;
+  }
 
 	@Override
  public boolean equals(Object otherMonster){
@@ -55,7 +63,7 @@ public class Monster {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO monsters (name, personid) VALUES (:name, :personId)";
+      String sql = "INSERT INTO monsters (name, personid, birthday) VALUES (:name, :personId, now())";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", this.name)
         .addParameter("personId", this.personId)
