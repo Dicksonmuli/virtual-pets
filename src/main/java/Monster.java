@@ -109,9 +109,11 @@ public class Monster {
     return true;
   }
 	public void depleteLevels(){
-    playLevel--;
-    foodLevel--;
-    sleepLevel--;
+    if(isAlive()) {
+      playLevel--;
+      foodLevel--;
+      sleepLevel--;
+    }
   }
   public void play(){
     if (playLevel >= MAX_PLAY_LEVEL){
