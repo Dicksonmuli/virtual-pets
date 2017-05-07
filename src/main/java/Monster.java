@@ -2,6 +2,8 @@ import org.sql2o.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Monster {
   private String name;
@@ -18,6 +20,7 @@ public class Monster {
   private Timestamp lastSlept;
   private Timestamp lastAte;
   private Timestamp lastPlayed;
+  private Timer timer;
 
   public Monster(String name, int personId) {
     this.name = name;
@@ -25,6 +28,7 @@ public class Monster {
 		this.playLevel = MAX_PLAY_LEVEL / 2;
 		this.sleepLevel = MAX_SLEEP_LEVEL / 2;
 		this.foodLevel = MAX_FOOD_LEVEL / 2;
+    timer = new Timer();
 
   }
 
@@ -54,6 +58,9 @@ public class Monster {
   }
   public Timestamp getLastAte(){
     return lastAte;
+  }
+  public Timestamp getLastPlayed(){
+    return lastPlayed;
   }
 
 	@Override
@@ -110,6 +117,12 @@ public class Monster {
     if (playLevel >= MAX_PLAY_LEVEL){
       throw new UnsupportedOperationException("You cannot play with monster anymore!");
     }
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE monsters SET lastplayed = now() WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
+      }
     playLevel++;
   }
    public void sleep(){
@@ -135,6 +148,19 @@ public class Monster {
         .executeUpdate();
       }
 	 foodLevel++;
+ }
+ public void startTimer(){
+   Monster currentMonster = this;
+   TimerTask timerTask = new TimerTask(){
+     @Override
+     public void run() {
+       if (currentMonster.isAlive() == false){
+         cancel();
+       }
+       depleteLevels();
+     }
+   };
+   this.timer.schedule(timerTask, 0, 600);
  }
 
 }
