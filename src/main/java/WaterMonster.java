@@ -42,4 +42,15 @@ public class WaterMonster extends Monster {
 		 return monster;
 	 }
  }
+ //overriding depleteLevels
+ @Override
+ public void depleteLevels(){
+	 if (isAlive()){
+		 playLevel--;
+		 foodLevel--;
+		 sleepLevel--;
+		 waterLevel--;
+	 }
+ }
+ 
 }
