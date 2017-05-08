@@ -236,5 +236,13 @@ public void depleteLevels_reducesAllLevels(){
    assertFalse(testFireMonster.isAlive());
    assertTrue(testFireMonster.getFoodLevel() >= 0);
  }
+ //unique tests for FireMonster
+
+ // FireMonster instantiates with halffull fire level
+ @Test
+ public void fireMonster_instantiatesWithHalfFullFireLevel(){
+   FireMonster testFireMonster = new FireMonster("Smokey", 1);
+   assertEquals(testFireMonster.getFireLevel(), (FireMonster.MAX_FIRE_LEVEL / 2));
+ }
 
 }
