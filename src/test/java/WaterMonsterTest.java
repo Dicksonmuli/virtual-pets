@@ -239,7 +239,22 @@ public void depleteLevels_reducesAllLevels(){
  @Test
  public void WaterMonster_instantiatesWithHalfFullWaterLevel() {
    WaterMonster testWaterMonster = new WaterMonster("Drippy", 1);
-   assertEquals(testWaterMonster.getWaterLevel(), (WaterMonster.MAX_WATER_lEVEL / 2));
+   assertEquals(testWaterMonster.getWaterLevel(), (WaterMonster.MAX_WATER_LEVEL / 2));
  }
+ //water method increases water level
+ @Test
+ public void water_increasesWaterMonsterWaterLevel(){
+   WaterMonster testWaterMonster = new WaterMonster("Drippy", 1);
+   testWaterMonster.water();
+   assertTrue(testWaterMonster.getWaterLevel() > (WaterMonster.MAX_WATER_LEVEL / 2));
+ }
+ //exception expected
+ @Test(expected = UnsupportedOperationException.class)
+  public void water_throwsExceptionIfWaterLevelIsAtMaxValue(){
+    WaterMonster testWaterMonster = new WaterMonster("Drippy", 1);
+    for(int i = WaterMonster.MIN_ALL_LEVELS; i <= (WaterMonster.MAX_WATER_LEVEL); i++){
+      testWaterMonster.water();
+    }
+  }
 
 }
