@@ -19,6 +19,14 @@ public class FireMonster extends Monster {
 	public int getFireLevel() {
 		return fireLevel;
 	}
+//increases the fire level
+	public void kindling() {
+		//throwing an exception when fireLevel > MAX_FIRE_LEVEL
+		if(fireLevel >= MAX_FIRE_LEVEL) {
+			throw new UnsupportedOperationException("You cannot give any more kindling");
+		}
+		fireLevel++;
+	}
 
 	public static List<FireMonster> all() {
     String sql = "SELECT * FROM monsters";
@@ -36,4 +44,21 @@ public class FireMonster extends Monster {
 		 return monster;
 	 }
  }
+ @Override
+ public void depleteLevels(){
+	 if (isAlive()){
+		 playLevel--;
+		 foodLevel--;
+		 sleepLevel--;
+		 fireLevel--;
+	 }
+ }
+ @Override
+ public boolean isAlive() {
+	 if(foodLevel <= MIN_ALL_LEVELS || playLevel<= MIN_ALL_LEVELS || fireLevel <= MIN_ALL_LEVELS || sleepLevel <= MIN_ALL_LEVELS) {
+		 return false;
+	 }
+	 return true;
+ }
+
 }

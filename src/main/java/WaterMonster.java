@@ -3,6 +3,8 @@ import org.sql2o.*;
 import java.util.List;
 
 public class WaterMonster extends Monster {
+	private int waterLevel;
+	public static final int MAX_WATER_lEVEL = 8;
 
   public WaterMonster(String name, int personId) {
     this.name = name;
@@ -10,6 +12,7 @@ public class WaterMonster extends Monster {
     playLevel = MAX_PLAY_LEVEL / 2;
     sleepLevel = MAX_SLEEP_LEVEL / 2;
     foodLevel = MAX_FOOD_LEVEL / 2;
+		waterLevel = MAX_WATER_lEVEL / 2;
     timer = new Timer();
   }
 
