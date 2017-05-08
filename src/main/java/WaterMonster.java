@@ -52,5 +52,15 @@ public class WaterMonster extends Monster {
 		 waterLevel--;
 	 }
  }
- 
+ @Override
+ public boolean isAlive() {
+	 if(foodLevel <= MIN_ALL_LEVELS ||
+	 playLevel <= MIN_ALL_LEVELS ||
+	 waterLevel <= MIN_ALL_LEVELS ||
+	 sleepLevel <= MIN_ALL_LEVELS) {
+		 return false;
+	 }
+	 return true;
+ }
+
 }
