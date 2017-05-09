@@ -21,6 +21,7 @@ public abstract class Monster {
   public Timestamp lastAte;
   public Timestamp lastPlayed;
   public Timer timer;
+  public String type;
 
 
 
@@ -65,17 +66,6 @@ public abstract class Monster {
 						this.getPersonId() == newMonster.getPersonId();
 	 }
  }
-
-  public void save() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO monsters (name, personid, birthday) VALUES (:name, :personId, now())";
-      this.id = (int) con.createQuery(sql, true)
-        .addParameter("name", this.name)
-        .addParameter("personId", this.personId)
-        .executeUpdate()
-        .getKey();
-    }
-  }
 
 
 	public boolean isAlive() {
@@ -141,6 +131,18 @@ public abstract class Monster {
      }
    };
    this.timer.schedule(timerTask, 0, 600);
+ }
+ //saving monsters
+ public void save() {
+   try(Connection con = DB.sql2o.open()) {
+     String sql = "INSERT INTO monsters (name, personId, birthday, type) VALUES (:name, :personId, now(), :type)";
+     this.id = (int) con.createQuery(sql, true)
+       .addParameter("name", this.name)
+       .addParameter("personId", this.personId)
+       .addParameter("type", this.type)
+       .executeUpdate()
+       .getKey();
+   }
  }
 
 }

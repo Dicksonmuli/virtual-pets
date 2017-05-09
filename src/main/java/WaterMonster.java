@@ -5,6 +5,7 @@ import java.util.List;
 public class WaterMonster extends Monster {
 	private int waterLevel;
 	public static final int MAX_WATER_LEVEL = 8;
+	public static final String DATABASE_TYPE = "water";
 
   public WaterMonster(String name, int personId) {
     this.name = name;
@@ -14,6 +15,7 @@ public class WaterMonster extends Monster {
     foodLevel = MAX_FOOD_LEVEL / 2;
 		waterLevel = MAX_WATER_LEVEL / 2;
     timer = new Timer();
+		type = DATABASE_TYPE;
   }
 	//returns water level
 	public int getWaterLevel() {
@@ -27,9 +29,11 @@ public class WaterMonster extends Monster {
 	 waterLevel++;
  }
 	public static List<WaterMonster> all() {
-	 String sql = "SELECT * FROM monsters;";
+	 String sql = "SELECT * FROM monsters WHERE type='water';";
 	 try(Connection con = DB.sql2o.open()) {
-		 return con.createQuery(sql).executeAndFetch(WaterMonster.class);
+		 return con.createQuery(sql)
+		 .throwOnMappingFailure(false)
+		 .executeAndFetch(WaterMonster.class);
 	 }
  }
 
@@ -38,6 +42,7 @@ public class WaterMonster extends Monster {
 		 String sql = "SELECT * FROM monsters where id=:id";
 		 WaterMonster monster = con.createQuery(sql)
 			 .addParameter("id", id)
+			 .throwOnMappingFailure(false)
 			 .executeAndFetchFirst(WaterMonster.class);
 		 return monster;
 	 }
