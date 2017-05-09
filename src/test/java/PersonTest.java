@@ -89,4 +89,15 @@ public class PersonTest {
 		testPerson.delete();
 		assertEquals(0, testPerson.getCommunities().size());
 	}
+	//exiting a community without deleting a person
+	@Test
+	public void leaveCommunity_removesAssociationWithSpecifiedCommunity() {
+		Community testCommunity = new Community("Fire Entusiasts", "Flame on!");
+		testCommunity.save();
+		Person testPerson = new Person("Henry", "henry@henry.com");
+		testPerson.save();
+		testPerson.leaveCommunity(testCommunity);
+		List savedCommunities = testPerson.getCommunities();
+		assertEquals(0, savedCommunities.size());
+	}
 }

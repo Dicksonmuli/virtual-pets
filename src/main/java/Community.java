@@ -95,4 +95,14 @@ public static List<Community> all() {
 			.executeUpdate();
 		}
 	}
+	//removes a person from a community
+	public void removePerson(Person person){
+	 try(Connection con = DB.sql2o.open()){
+		 String joinRemovalQuery = "DELETE FROM communities_persons WHERE community_id = :communityId AND person_id = :personId;";
+		 con.createQuery(joinRemovalQuery)
+			 .addParameter("communityId", this.getId())
+			 .addParameter("personId", person.getId())
+			 .executeUpdate();
+	 }
+ }
 }
