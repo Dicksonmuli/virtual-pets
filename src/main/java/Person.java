@@ -112,4 +112,17 @@ public class Person {
 		 return communities;
 	 }
  }
+ //delete the person and community associates
+ public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+    String sql = "DELETE FROM persons WHERE id = :id;";
+    con.createQuery(sql)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    String joinDeleteQuery = "DELETE FROM communities_persons WHERE person_id = :personId";
+    con.createQuery(joinDeleteQuery)
+      .addParameter("personId", this.getId())
+      .executeUpdate();
+    }
+  }
 }

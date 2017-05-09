@@ -69,4 +69,23 @@ public class CommunityTest {
    List savedPersons = testCommunity.getPersons();
    assertEquals(savedPersons.size(), 1);
  }
+ //deleting a community
+ @Test
+ public void delete_deletesCommunity_true() {
+   Community testCommunity = new Community("Fire Enthusiasts", "Flame on!");
+   testCommunity.save();
+   testCommunity.delete();
+   assertEquals(0, Community.all().size());
+ }
+ //delete all persons and communities
+ @Test
+ public void delete_deletesAllPersonsAndCommunitiesAssociations() {
+   Community testCommunity = new Community("Fire Enthusiasts", "Flame on!");
+   testCommunity.save();
+   Person testPerson = new Person("Henry", "henry@henry.com");
+   testPerson.save();
+   testCommunity.addPerson(testPerson);
+   testCommunity.delete();
+   assertEquals(0, testPerson.getCommunities().size());
+ }
 }
