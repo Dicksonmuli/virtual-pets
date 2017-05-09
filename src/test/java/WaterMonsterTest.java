@@ -94,7 +94,7 @@ public class WaterMonsterTest {
     WaterMonster testWaterMonster = new WaterMonster("Bubbles", 1);
     assertEquals(testWaterMonster.isAlive(), true);
   }
-	
+
 
 @Test
  public void isAlive_recognizesWaterMonsterIsDeadWhenLevelsReachMinimum_false(){
@@ -259,5 +259,13 @@ public class WaterMonsterTest {
  	 assertEquals(testWaterMonster.getPlayLevel(), (WaterMonster.MAX_PLAY_LEVEL / 2) - 1);
  	 assertEquals(testWaterMonster.getWaterLevel(), (WaterMonster.MAX_WATER_LEVEL / 2) - 1);
   }
-
+  @Test
+ public void water_recordsTimeLastWaterInDatabase() {
+   WaterMonster testWaterMonster = new WaterMonster("Bubbles", 1);
+   testWaterMonster.save();
+   testWaterMonster.water();
+   Timestamp savedWaterMonsterLastWater = WaterMonster.find(testWaterMonster.getId()).getLastWater();
+   Timestamp rightNow = new Timestamp(new Date().getTime());
+   assertEquals(DateFormat.getDateTimeInstance().format(rightNow), DateFormat.getDateTimeInstance().format(savedWaterMonsterLastWater));
+ }
 }

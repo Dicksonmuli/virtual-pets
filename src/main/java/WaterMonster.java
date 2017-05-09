@@ -1,11 +1,13 @@
 import java.util.Timer;
 import org.sql2o.*;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class WaterMonster extends Monster {
 	private int waterLevel;
 	public static final int MAX_WATER_LEVEL = 8;
 	public static final String DATABASE_TYPE = "water";
+	public Timestamp lastWater;
 
   public WaterMonster(String name, int personId) {
     this.name = name;
@@ -21,10 +23,20 @@ public class WaterMonster extends Monster {
 	public int getWaterLevel() {
 		return waterLevel;
 	}
+	//returns last time water added
+	public Timestamp getLastWater(){
+    return lastWater;
+  }
 
 	public void water(){
 	 if (waterLevel >= MAX_WATER_LEVEL){
 		 throw new UnsupportedOperationException("You cannot water your pet any more!");
+	 }
+	 try(Connection con = DB.sql2o.open()) {
+		 String sql = "UPDATE monsters SET lastwater = now() WHERE id = :id";
+		 con.createQuery(sql)
+		 .addParameter("id", id)
+		 .executeUpdate();
 	 }
 	 waterLevel++;
  }
